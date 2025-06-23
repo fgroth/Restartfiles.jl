@@ -297,8 +297,60 @@ end
 """
     create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::String)
 
-Just return file, as no action is necessary.
+Just return `file`, as no action is necessary.
 """
 function create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::String)    
     return file
+end
+
+"""
+    add_metadata_to_restartfile(cluster::String, method::String="";
+                                property::Union{String,Vector{String}}, metadata::Dict{String,<:Any})
+
+Save metadata as attribute to the `property` in the restartfile.
+This assumes that `property` is already within the restartfile.
+"""
+function add_metadata_to_restartfile(cluster::String, method::String="";
+                                     property::Union{String,Vector{String}}, metadata::Dict{String,<:Any})
+        add_metadata_to_restartfile_name(restartfile_name(cluster, method),
+                                         property=property, metadata=metadata)
+end
+"""
+    add_metadata_to_restartfile_name(restartfile::String;
+                                     property::Union{String,Vector{String}}, metadata::Dict{String,<:Any})
+
+Save metadata as attribute to the `property` in the restartfile.
+This assumes that `property` is already within the restartfile.
+"""
+function add_metadata_to_restartfile_name(restartfile::String;
+                                          property::Union{String,Vector{String}}, metadata::Dict{String,<:Any})
+    if !isfile(restartfile)
+        mode = "w"
+    else
+        mode = "r+"
+    end
+    h5open(restartfile,mode) do file
+        add_metadata_to_restartfile(file, property=property, metadata=metadata)
+    end
+end
+"""
+    add_metadata_to_restartfile(file::Union{HDF5.File,HDF5.Group};
+                                property::Union{String,Vector{String}}, metadata::Dict{String,<:Any})
+
+Save metadata as attribute to the `property` in the restartfile.
+This assumes that `property` is already within the restartfile.
+"""
+function add_metadata_to_restartfile(file::Union{HDF5.File,HDF5.Group};
+                                     property::Union{String,Vector{String}}, metadata::Dict{String,<:Any})
+    group = create_groups_as_necessary(file, property)
+    # go even one step further, we need teh actual property location
+    if typeof(property) == String
+        group = group[property]
+    elseif length(property) > 0 # if the length is zero, we are adding global information on the file level.
+        group = group[property[end]]
+    end
+    # now we can write all information to the file
+    for (key, value) in metadata
+        attrs(group)[key] = value
+    end
 end

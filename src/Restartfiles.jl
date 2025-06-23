@@ -6,6 +6,7 @@ export restartfile_name, restartfile_name_from_snapshot,
     delete_property_from_restartfile, delete_property_from_restartfile_name,
     is_in_restartfile, is_in_restartfile_name,
     read_property_from_restartfile, read_property_from_restartfile_name,
-    cleanup_restartfile, cleanup_restartfile_name
+    cleanup_restartfile, cleanup_restartfile_name,
+    add_metadata_to_restartfile, add_metadata_to_restartfile_name
 
 end # module
