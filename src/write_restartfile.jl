@@ -97,15 +97,34 @@ end
 
 
 """
-    create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::Vector{String})
+    create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::Vector{String};
+                               copy_from::Union{HDF5.File,HDF5.Group}=nothing)
 
 Create all necessary group hierarchy if not present yet.
 """
-function create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::Vector{String})    
+function create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::Vector{String};
+                                    copy_from::Union{Nothing,HDF5.File,HDF5.Group}=nothing)
     group = file
+    if !isa(copy_from,Nothing)
+        copy_group = copy_from
+        known_attr_names = keys(attributes(group))
+        for attr_name in keys(attributes(copy_group))
+            if !(attr_name in known_attr_names)
+                attr_value = read_attribute(copy_group, attr_name)
+                write_attribute(group, attr_name, attr_value)
+            end
+        end
+    end
     for group_hierarchy_level in 1:length(group_location)-1
         if !haskey(group, group_location[group_hierarchy_level])
             group = create_group(group, group_location[group_hierarchy_level])
+            if !isa(copy_from,Nothing)
+                copy_group = copy_group[group_location[group_hierarchy_level]]
+                for attr_name in keys(attributes(copy_group))
+                    attr_value = read_attribute(copy_group, attr_name)
+                    write_attribute(group, attr_name, attr_value)
+                end
+            end
         else
             group = group[group_location[group_hierarchy_level]]
         end
@@ -113,11 +132,13 @@ function create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_loc
     return group
 end
 """
-    create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::String)
+    create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::String;
+                               copy_from::Union{HDF5.File,HDF5.Group}=nothing)
 
 Just return `file`, as no action is necessary.
 """
-function create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::String)    
+function create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::String;
+                                    copy_from::Union{HDF5.File,HDF5.Group}=nothing)
     return file
 end
 
