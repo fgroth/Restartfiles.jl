@@ -15,6 +15,7 @@ export save_property_to_restartfile, save_property_to_restartfile_name,
     add_metadata_to_restartfile, add_metadata_to_restartfile_name
 
 include(joinpath("copy_restartfile.jl"))
-export cleanup_restartfile, cleanup_restartfile_name
+export cleanup_restartfile, cleanup_restartfile_name,
+    copy_restartfile_properties, copy_restartfile_properties_name
 
 end # module
