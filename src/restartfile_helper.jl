@@ -256,15 +256,16 @@ end
 Recursively copies all datasets and attributes from src_group to dest_group.
 """
 function recursive_copy(src::Union{HDF5.File,HDF5.Group}, dest::Union{HDF5.File,HDF5.Group})
+    # Copy global attributes of group / file
+    for attr_name in keys(attributes(src))
+        attr_value = read_attribute(src, attr_name)
+        write_attribute(dest, attr_name, attr_value)
+    end
+    # now copy over all data
     for name in keys(src)
         obj = src[name]
         if isa(obj, HDF5.Group)
             new_group = create_group(dest, name)
-            # Copy attributes of the group
-            for attr_name in keys(attributes(obj))
-                attr_value = read_attribute(obj, attr_name)
-                write_attribute(new_group, attr_name, attr_value)
-            end
             recursive_copy(obj, new_group)
         elseif isa(obj, HDF5.Dataset)
             data = read(obj)
