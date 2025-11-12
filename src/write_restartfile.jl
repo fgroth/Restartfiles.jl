@@ -98,7 +98,7 @@ end
 
 """
     create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::Vector{String};
-                               copy_from::Union{HDF5.File,HDF5.Group}=nothing)
+                               copy_from::Union{Nothing,HDF5.File,HDF5.Group}=nothing)
 
 Create all necessary group hierarchy if not present yet.
 """
@@ -133,12 +133,12 @@ function create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_loc
 end
 """
     create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::String;
-                               copy_from::Union{HDF5.File,HDF5.Group}=nothing)
+                               copy_from::Union{Nothing,HDF5.File,HDF5.Group}=nothing)
 
 Just return `file`, as no action is necessary.
 """
 function create_groups_as_necessary(file::Union{HDF5.File,HDF5.Group}, group_location::String;
-                                    copy_from::Union{HDF5.File,HDF5.Group}=nothing)
+                                    copy_from::Union{Nothing,HDF5.File,HDF5.Group}=nothing)
     return file
 end
 
