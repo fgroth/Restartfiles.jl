@@ -2,7 +2,7 @@
 
 This package provides wrapper functions for HDF5, to easily read and write hierarchical data for hdf5 restartfiles.
 
-The default restartfile names are `restartfiles/cluster(*"_"*method)`, but all functions exist with a `_name` suffix, that allow for self-defined naming conventions. See ` restartfile_name`, `restartfile_name_from_snapshot`
+The default restartfile names are `restartfiles/cluster(*"_"*method).h5`, see `restartfile_name`, `restartfile_name_from_snapshot`. Alternatively, all functions exist with a `_name` suffix, that allow for self-defined naming conventions.
 
 ## Reading
 
