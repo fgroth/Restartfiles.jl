@@ -31,7 +31,7 @@ function copy_restartfile_properties_name(restartfile::String;
         # make sure the last layer is prepared as well
         if isa(src_obj, HDF5.Dataset)
             # use some trick to make sure we always have the correct name, both for String and Vector{String} type property.
-            dest_obj = create_dataset(dest_obj, vcat(property,"")[end-1], typeof(read(src_onj)))
+            dest_obj = create_dataset(dest_obj, vcat(property,"")[end-1], datatype(src_obj), dataspace(src_obj))
         else
             dest_obj = create_groups_as_necessary(dest_obj, vcat(property[end],""))
         end
@@ -59,11 +59,11 @@ function cleanup_restartfile_name(restartfile::String)
     tmp_file = tempname(cleanup=false)
     # Create a clean new file
     dest = h5open(tmp_file, "w")
-    try
+    copied_successfull= try
         recursive_copy(src, dest)
-        copied_successfull=true
+        true
     catch
-        copied_successfull=false
+        false
     finally
         close(src)
         close(dest)
