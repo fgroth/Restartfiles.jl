@@ -43,3 +43,42 @@ function read_property_from_restartfile(file::Union{HDF5.File,HDF5.Group};
         return read(group[property[end]])
     end
 end
+
+"""
+    get_all_keys(file::Union{HDF5.File,HDF5.Group})
+
+Return Vector containing all entries within the Hdf5 restartfile.
+"""
+function get_all_keys(file::Union{HDF5.File,HDF5.Group})
+    entries = keys(file)
+    all_entries = Vector{Vector}(undef, length(entries))
+    for i_entry in 1:length(entries)
+        if isa(file[entries[i_entry]], HDF5.Dataset)
+            # we reached the end
+            all_entries[i_entry] = [entries[i_entry]]
+        else
+            # continue the search
+            all_entries[i_entry] = [entries[i_entry], get_all_keys(file[entries[i_entry]])]
+        end
+    end
+    return all_entries
+end
+
+"""
+    print_all_keys(file::Union{HDF5.File,HDF5.Group})
+    print_all_keys(entries::Vector; increment::Int64=0)
+
+Print all keys in Hdf5 restartfile. Also see [`get_all_keys`](@ref).
+"""
+function print_all_keys(file::Union{HDF5.File,HDF5.Group})
+    entries = get_all_keys(file)
+    print_all_keys(entries)
+end
+function print_all_keys(entries::Vector; increment::Int64=0)
+    for i_entry in 1:length(entries)
+        println(repeat(" ",increment)*entries[i_entry][1])
+        if length(entries[i_entry]) > 1
+            print_all_keys(entries[i_entry][2], increment=increment+1)
+        end
+    end
+end

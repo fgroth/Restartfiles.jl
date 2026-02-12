@@ -7,7 +7,8 @@ include(joinpath("check_restartfile.jl"))
 export is_in_restartfile, is_in_restartfile_name
 
 include(joinpath("read_restartfile.jl"))
-export read_property_from_restartfile, read_property_from_restartfile_name
+export read_property_from_restartfile, read_property_from_restartfile_name,
+    get_all_keys, print_all_keys
 
 include(joinpath("write_restartfile.jl"))
 export save_property_to_restartfile, save_property_to_restartfile_name,
