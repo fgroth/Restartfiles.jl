@@ -8,6 +8,8 @@ The default restartfile names are `restartfiles/cluster(*"_"*method).h5`, see `r
 
 Use `read_property_from_restartfile(_name)`.
 
+To check the content of the restartfile, use `print_all_keys`. Also see `get_all_keys`.
+
 ## Writing
 
 Use `save_property_to_restartfile(_name)`, `delete_property_from_restartfile(_name)`, `add_metadata_to_restartfile(_name)`.
