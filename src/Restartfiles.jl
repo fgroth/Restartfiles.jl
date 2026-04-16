@@ -19,4 +19,8 @@ include(joinpath("copy_restartfile.jl"))
 export cleanup_restartfile, cleanup_restartfile_name,
     copy_restartfile_properties, copy_restartfile_properties_name
 
+include(joinpath("utils.jl"))
+export do_use_restartfiles, dont_use_restartfiles,
+    use_restartfiles
+
 end # module
