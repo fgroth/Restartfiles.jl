@@ -4,6 +4,9 @@ This package provides wrapper functions for [HDF5](https://juliaio.github.io/HDF
 
 The default restartfile names are `restartfiles/cluster(*"_"*method).h5`, see `restartfile_name`, `restartfile_name_from_snapshot`. Alternatively, all functions exist with a `_name` suffix, that allow for self-defined naming conventions.
 
+## Checking
+You can check for a specific property to be present in a restartfile using `is_in_restartfile(_name)`. To check for several properties, as well as existance of the file, use `restartfile_exists_with_properties(_name)`.
+
 ## Reading
 
 Use `read_property_from_restartfile(_name)`.
