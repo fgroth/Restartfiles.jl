@@ -22,6 +22,8 @@ To check the content of the restartfile, use `print_all_keys`. Also see `get_all
 
 Use `save_property_to_restartfile(_name)`, `delete_property_from_restartfile(_name)`, `add_metadata_to_restartfile(_name)`.
 
+To write several properties to the same restartfile, also the functions `save_all_properties_to_restartfile(_name)` can be used.
+
 ## Cleanup
 
 Hdf5 files don't delete old content, but only hide the data. If you want to properly cleanup the file (e.g. to publish the data, or just to decrease the size), use `cleanup_restartfile(_name)`.

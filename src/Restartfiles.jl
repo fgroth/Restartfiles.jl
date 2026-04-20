@@ -13,6 +13,7 @@ export read_property_from_restartfile, read_property_from_restartfile_name,
 
 include(joinpath("write_restartfile.jl"))
 export save_property_to_restartfile, save_property_to_restartfile_name,
+    save_all_properties_to_restartfile, save_all_properties_to_restartfile_name,
     delete_property_from_restartfile, delete_property_from_restartfile_name,
     add_metadata_to_restartfile, add_metadata_to_restartfile_name
 

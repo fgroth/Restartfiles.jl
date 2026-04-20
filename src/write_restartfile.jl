@@ -52,6 +52,31 @@ function save_property_to_restartfile(file::Union{HDF5.File,HDF5.Group};
 end
 
 """
+    save_all_properties_to_restartfile(cluster::String, method::String="";
+                                       values::Dict{<:Union{String,Vector{String}},<:Any})
+
+Save all `(property,value)` pairs within `values` in the restartfile.
+"""
+function save_all_properties_to_restartfile(cluster::String, method::String="";
+                                            values::Dict{<:Union{String,Vector{String}},<:Any})
+    save_all_properties_to_restartfile_name(restartfile_name(cluster, method),
+                                            values=values)
+end
+"""
+    save_all_properties_to_restartfile_name(restartfile::String;
+                                            values::Dict{<:Union{String,Vector{String}},<:Any})
+
+Save all `(property,value)` pairs within `values` in the restartfile.
+"""
+function save_all_properties_to_restartfile_name(restartfile::String;
+                                                 values::Dict{<:Union{String,Vector{String}},<:Any})
+    for (property, value) in values
+        save_property_to_restartfile_name(restartfile,
+                                          property=property, value=value)
+    end
+end
+
+"""
     delete_property_from_restartfile(cluster::String, method::String="";
                                      property::Union{String,Vector{String}})
 
