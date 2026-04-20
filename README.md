@@ -14,7 +14,7 @@ You can check for a specific property to be present in a restartfile using `is_i
 
 ## Reading
 
-Use `read_property_from_restartfile(_name)`.
+Use `read_property_from_restartfile(_name)`. Several properties can be read using `read_properties_from_restartfile(_name)`.
 
 To check the content of the restartfile, use `print_all_keys`. Also see `get_all_keys`.
 

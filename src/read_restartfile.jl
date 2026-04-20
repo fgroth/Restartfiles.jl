@@ -45,6 +45,35 @@ function read_property_from_restartfile(file::Union{HDF5.File,HDF5.Group};
 end
 
 """
+    read_properties_from_restartfile(cluster::String, method::String="";
+                                     properties::Vector{<:Union{String,Vector{String}}})
+
+Return Tuple of values for given properties in restartfile.
+
+This function assumes all properties have been saved to the restartfile and throws an error otherwise.
+"""
+function read_properties_from_restartfile(cluster::String, method::String="";
+                                          properties::Vector{<:Union{String,Vector{String}}})
+    read_properties_from_restartfile_name(restartfile_name(cluster, method),
+                                          properties=properties)
+end
+"""
+    read_properties_from_restartfile_name(cluster::String, method::String="";
+                                          properties::Vector{<:Union{String,Vector{String}}})
+
+Return Tuple of values for given properties in restartfile.
+
+This function assumes all properties have been saved to the restartfile and throws an error otherwise.
+"""
+function read_properties_from_restartfile_name(restartfile::String;
+                                               properties::Vector{<:Union{String,Vector{String}}})
+    return Tuple(
+        read_property_from_restartfile_name(restartfile, property=property)
+        for property in properties
+    )
+end
+
+"""
     get_all_keys(file::Union{HDF5.File,HDF5.Group})
 
 Return Vector containing all entries within the Hdf5 restartfile.
