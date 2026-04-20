@@ -48,14 +48,29 @@ function is_in_restartfile(file::Union{HDF5.File,HDF5.Group},property::Vector{St
 end
 
 """
-    restartfile_exists_with_properties(restartfile::String; properties::Vector{<:Union{String,Vector{String}}})
+    restartfile_exists_with_properties(cluster::String, method::String="";
+                                       properties::Vector{<:Union{String,Vector{String}}})
 
 Return true if:
 - restartfiles should be used in general (`use_restartfiles`)
 - and restartfile exists
 - and all properties are present
 """
-function restartfile_exists_with_properties(restartfile::String; properties::Vector{<:Union{String,Vector{String}}})
+function restartfile_exists_with_properties(cluster::String, method::String="";
+                                            properties::Vector{<:Union{String,Vector{String}}})
+    restartfile_exists_with_properties_name(restartfile_name(cluster, method), properties=properties)
+end
+"""
+    restartfile_exists_with_properties_name(restartfile::String;
+                                            properties::Vector{<:Union{String,Vector{String}}})
+
+Return true if:
+- restartfiles should be used in general (`use_restartfiles`)
+- and restartfile exists
+- and all properties are present
+"""
+function restartfile_exists_with_properties_name(restartfile::String;
+                                                 properties::Vector{<:Union{String,Vector{String}}})
     if use_restartfiles &&
         isfile(restartfile)
         for property in properties

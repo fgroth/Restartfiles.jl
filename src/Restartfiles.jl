@@ -5,7 +5,7 @@ export restartfile_name, restartfile_name_from_snapshot
 
 include(joinpath("check_restartfile.jl"))
 export is_in_restartfile, is_in_restartfile_name,
-    restartfile_exists_with_properties
+    restartfile_exists_with_properties, restartfile_exists_with_properties_name
 
 include(joinpath("read_restartfile.jl"))
 export read_property_from_restartfile, read_property_from_restartfile_name,
